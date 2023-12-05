@@ -13,10 +13,15 @@ def read_evaluating_number(training_file):
     return evaluating_number
 
 def interpret_output(output, evaluating_number, threshold=0.5):
-    if output > threshold:
-        return f"Greater than {evaluating_number} ({output})"
-    else:
-        return f"Less than {evaluating_number} ({output})"
+    interpreted_outputs = []
+    for value in output:
+        probability = value * 100  # Convert to percentage
+        if value > threshold:
+            interpretation = f"Greater than {evaluating_number} ({probability:.2f}% probability)"
+        else:
+            interpretation = f"Less than {evaluating_number} ({probability:.2f}% probability)"
+        interpreted_outputs.append(interpretation)
+    return interpreted_outputs
 
 def test_neuron(test_inputs, weight, bias, scaler, evaluating_number):
     normalized_test_inputs = scaler.transform(test_inputs.reshape(-1, 1))
